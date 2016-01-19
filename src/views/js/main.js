@@ -402,58 +402,49 @@ var pizzaElementGenerator = function(i) {
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
-  // Changes the value for the size of the pizza above the slider
-  function changeSliderLabel(size) {
-    switch(size) {
-      case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
-        return;
-      case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
-        return;
-      case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
-        return;
-      default:
-        console.log("bug in changeSliderLabel");
-    }
-  }
-
-  changeSliderLabel(size);
-
-   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
+  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
+  // P4 Optimisation: Removed oldWidth & windowWidth variables, and replaced their reference in the oldSize variable with their former values.
   function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
 
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
+    var oldSize = elem.offsetWidth / document.getElementById("randomPizzas").offsetWidth;
+
+    // Changes the slider value to a percent width and renames the size of the pizza below the slider.
+    // P4 Optimisation: Replaced all instances of '.querySelector' with '.getElementById'
+    // P4 Optimisation: Integrated changeSliderLabel() with the sizeSwitcher() function. 
     function sizeSwitcher (size) {
       switch(size) {
         case "1":
+          document.getElementById("pizzaSize").innerHTML = "Small";
           return 0.25;
         case "2":
+          document.getElementById("pizzaSize").innerHTML = "Medium";
           return 0.3333;
         case "3":
+          document.getElementById("pizzaSize").innerHTML = "Large";
           return 0.5;
         default:
           console.log("bug in sizeSwitcher");
       }
     }
 
-    var newSize = sizeSwitcher(size);
-    var dx = (newSize - oldSize) * windowWidth;
-
+    // P4 Optimisation: Removed newSize & windowWidth variables, and replaced them with their former values when determining dx.
+    // P4 Optimisation: Replaced 'querySelector' with 'getElementById'.
+    var dx = (sizeSwitcher(size) - oldSize) * document.getElementById("randomPizzas").offsetWidth;
     return dx;
   }
 
   // Iterates through pizza elements on the page and changes their widths
+  // P4 Optimisation: Replaced '.querySelectorAll' with '.getElementByClassName'
+  // P4 Optimisation: Moved dx and newwidth out of the for loop, since they only need to be calculated once. 
+  // P4 Optimisation: Created an array to store each pizza container outside of the for loop, so we can reference pizzacontainer[0] for dx and newwidth.
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    
+    var pizzaContainer = document.getElementsByClassName("randomPizzaContainer");
+    var dx = determineDx(pizzaContainer[0], size);
+    var newwidth = (pizzaContainer[0].offsetWidth + dx) + 'px';
+
+    for (var i = 0; i < pizzaContainer.length; i++) {
+      pizzaContainer[i].style.width = newwidth;
     }
   }
 
@@ -463,7 +454,7 @@ var resizePizzas = function(size) {
   window.performance.mark("mark_end_resize");
   window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
   var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");
-  console.log("Time to resize pizzas: " + timeToResize[0].duration + "ms");
+  console.log("Time to resize pizzas: " + timeToResize[timeToResize.length-1].duration + "ms");
 };
 
 window.performance.mark("mark_start_generating"); // collect timing data
@@ -498,14 +489,27 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-function updatePositions() {
+// P4 Optimisation: Replaced '.querySelectorAll' with '.getElementsByClassName'.
+// P4 Optimisation: Created static var 'topScroll' outside of the for loop, since it's value will not change whilst the function executes.
+// P4 Optimisation: Cached the length of the items array, since the number of pizzas on the page remian constant.
+
+function updatePositions() { 
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var items = document.getElementsByClassName('mover');
+  var topScroll = document.body.scrollTop;
+  var itemsLength = items.length;
+  var phaseValues = [];
+
+  // P4 Optimisation: Running console.log(phase) produces five repeating values. These values are stored in array phaseValues. 
+  for (var i = 0; i < 5; i++) {
+    phaseValues.push(Math.sin((topScroll / 1250) + i));
+  }
+
+  // P4 Optimisation: This function can now pull from each of phaseValue's stored values from the previous function. 
+  for (var i = 0; i < itemsLength; i++) {
+    items[i].style.left = items[i].basicLeft + 100 * phaseValues[(i % 5)] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -522,10 +526,12 @@ function updatePositions() {
 window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
+// P4 Optimisation: Replaced '.querySelector' with '.getElementById' (line 551)
+// P4 Optimisation: Reduced the number of background pizzas from 200 to 100.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 100; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -533,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    document.getElementById("movingPizzas1").appendChild(elem);
   }
   updatePositions();
 });
