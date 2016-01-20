@@ -36,6 +36,7 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 6. Time to generate last ten frames via MAMP's localhost:8888 - <1ms.
 
 
+
 ### Computational Efficiency for pizza.html
 
 1. Replaced '.querySelectors' with more specific 'getElementsBy...'.
@@ -47,6 +48,7 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 4. Relocated 'dx' and 'newWidth' outside of the for loop inside the changePizzaSizes() function, since both only need to be calculated once. 
 
 5. Time to resize pizzas via MAMP's localhost:8888 - ~1ms.
+
 
 
 ### Build Tools 
@@ -62,6 +64,7 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 5. Local server was setup by installing MAMP (https://www.mamp.info/en/), then using the url 'localhost:8888'.
 
 
+
 ### Gulp
 
 1. Installed Gulp globally via the terminal: npm install gulp -g
@@ -75,6 +78,13 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 5. Set the default task to minify any src CSS or JS files, then use the Watch task to re-run Minify if any further changes are made to the files.
 
 
+
 ### Comments  
 
 1. All optimisations can be viewed by searching for 'P4 Optimisation:' in the views/main.js file.
+
+
+
+### How to Run
+
+1. open either index.html file in your browser.
