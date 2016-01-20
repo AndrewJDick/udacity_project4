@@ -4,19 +4,20 @@ frontend-nanodegree-website-optimisation
 
 #### Critical Rendering Path for index.html:
 
-1. CSS
+### 1. CSS 
 Added all 'above-the-fold' CSS styling to the index.html file via the style tag. Minified using gulp-cssnano.
 
-2. Javascript
+### 2. Javascript
 Relocated GoogleAnalyticsObject script to it's own js file. Added the async property to each of the Javascript file references. Minified using uglify.
 
-3. Images
-Saved all files locally. Resized the 'pizzeria.jpg' image to match the others. Compressed images using gulp-imagemin.
+### 3. Images
+Saved all files locally. Used Photoshop to 'Save for Web' to reduce file size. Resized 'pizzeria.jpg' image to match the others. Compressed images using gulp-imagemin.
 
-4. HTML
+### 4. HTML
 Replaced custom font with Helvetica. 
 
-5. PageSpeed Insights score (via github gh-pages branch): Desktop -  Mobile - . 
+### 5. Performance Scores
+PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92. 
 
 
 
@@ -32,7 +33,7 @@ Replaced custom font with Helvetica.
 
 5. Created a for loop to store each of the five repeating phase values in the 'phaseValues' array.
 
-6. Time to generate last ten frames: < 1ms.
+6. Time to generate last ten frames via MAMP's localhost:8888 - <1ms.
 
 
 #### Computational Efficiency for pizza.html
@@ -45,29 +46,22 @@ Replaced custom font with Helvetica.
 
 4. Relocated 'dx' and 'newWidth' outside of the for loop inside the changePizzaSizes() function, since both only need to be calculated once. 
 
-5. Time to resize pizzas: ~ 1ms.
+5. Time to resize pizzas via MAMP's localhost:8888 - ~1ms.
 
 
 #### Build Tools 
 
-1. Installed gulp-cssnano to minify the projects css files. 
+1. Installed gulp-cssnano to minify the project css files. 
 
-2. Installed gulp-imagemin to compress all images. 
+2. Installed gulp-imagemin to compress all images to reduce file size. 
 
-3. Installed cssgulp-uglify to minify all JS files. 
+3. Installed gulp-uglify to minify all JS files. 
 
-4. 
+4. Installed gulp-plumber to prevent the watch task from crashing if a fault was discovered. 
+
+5. Local server was setup by installing MAMP (https://www.mamp.info/en/), using the url localhost:8888.
 
 
 #### Comments  
 
 1. All optimisations can be viewed by searching for 'P4 Optimisation:' in the views/main.js file.
-
-
-
-
-
-
-
-
-
