@@ -2,26 +2,26 @@
 ===============================
 
 
-#### Critical Rendering Path for index.html:
+### Critical Rendering Path for index.html:
 
-### 1. CSS 
+#### 1. CSS 
 Added all 'above-the-fold' CSS styling to the index.html file via the style tag. Minified using gulp-cssnano.
 
-### 2. Javascript
+#### 2. Javascript
 Relocated the GoogleAnalyticsObject script to it's own js file. Added the async property to each of the Javascript file references. Minified using gulp-uglify.
 
-### 3. Images
+#### 3. Images
 Saved all files locally. Used Photoshop's 'Save for Web' to reduce file sizes. Resized 'pizzeria.jpg' image to match the others. Compressed images using gulp-imagemin.
 
-### 4. HTML
+#### 4. HTML
 Replaced external web font 'OpenSans' with Helvetica. 
 
-### 5. Performance Scores
+#### 5. Performance Scores
 PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92. 
 
 
 
-#### Framerate for pizza.html
+### Framerate for pizza.html
 
 1. Reduced the total number of generated sliding pizzas by half (from 200 to 100).
 
@@ -36,7 +36,7 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 6. Time to generate last ten frames via MAMP's localhost:8888 - <1ms.
 
 
-#### Computational Efficiency for pizza.html
+### Computational Efficiency for pizza.html
 
 1. Replaced '.querySelectors' with more specific 'getElementsBy...'.
 
@@ -49,7 +49,7 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 5. Time to resize pizzas via MAMP's localhost:8888 - ~1ms.
 
 
-#### Build Tools 
+### Build Tools 
 
 1. Installed gulp-cssnano to minify the project css files. 
 
@@ -62,7 +62,7 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 5. Local server was setup by installing MAMP (https://www.mamp.info/en/), then using the url 'localhost:8888'.
 
 
-## Gulp
+### Gulp
 
 1. Installed Gulp globally via the terminal: npm install gulp -g
 
@@ -75,6 +75,6 @@ PageSpeed Insights score (via github gh-pages branch): Desktop - 95  Mobile - 92
 5. Set the default task to minify any src CSS or JS files, then use the Watch task to re-run Minify if any further changes are made to the files.
 
 
-#### Comments  
+### Comments  
 
 1. All optimisations can be viewed by searching for 'P4 Optimisation:' in the views/main.js file.
