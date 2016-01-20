@@ -406,6 +406,7 @@ var resizePizzas = function(size) {
   // P4 Optimisation: Removed oldWidth & windowWidth variables, and replaced their reference in the oldSize variable with their former values.
   function determineDx (elem, size) {
 
+    // var oldSize = oldWidth / windowWidth;
     var oldSize = elem.offsetWidth / document.getElementById("randomPizzas").offsetWidth;
 
     // Changes the slider value to a percent width and renames the size of the pizza below the slider.
@@ -429,6 +430,7 @@ var resizePizzas = function(size) {
 
     // P4 Optimisation: Removed newSize & windowWidth variables, and replaced them with their former values when determining dx.
     // P4 Optimisation: Replaced 'querySelector' with 'getElementById'.
+
     var dx = (sizeSwitcher(size) - oldSize) * document.getElementById("randomPizzas").offsetWidth;
     return dx;
   }

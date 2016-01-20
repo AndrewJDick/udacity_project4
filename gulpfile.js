@@ -32,7 +32,7 @@ gulp.task('watch', function(){
 // Image Compress Task
 // Compress all images, removing metadata
 gulp.task('image', function(){
-	gulp.src(['src/img/*', 'src/views/img/*'])
+	gulp.src(['src/img/*', 'src/views/images/*'])
 		.pipe(imgmin())
 		.pipe(gulp.dest('dist/img'));
 });
